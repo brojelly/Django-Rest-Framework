@@ -15,7 +15,7 @@ import json
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 with open(BASE_DIR / 'secrets.json') as f:
     secret = json.load(f)
@@ -23,17 +23,7 @@ with open(BASE_DIR / 'secrets.json') as f:
 SECRET_KEY = secret['SECRET_KEY']
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': secret["DB_NAME"],
-        'USER': secret["DB_USER"],
-        'PASSWORD': secret["DB_PASSWORD"],
-        'HOST': secret["DB_HOST"],
-        'PORT': secret["DB_PORT"],
-        'OPTIONS': {'charset': 'utf8mb4'},
-    }
-}
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,10 +32,7 @@ DATABASES = {
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -64,6 +51,7 @@ INSTALLED_APPS = [
     'users',
     'restaurants',
     'reviews',
+    'drf_yasg',
 
 ]
 
@@ -131,13 +119,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -153,6 +135,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
@@ -160,3 +143,4 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'users.User'
+
